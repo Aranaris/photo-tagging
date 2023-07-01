@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import firestore from "../firebase";
-import {collection, query, orderBy, limit, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {collection, query, orderBy, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
 import { useState } from "react";
 
 function Home() {
@@ -26,6 +26,7 @@ function Home() {
             };
             try{
                 setDoc(doc(playerNameRef, currentPlayerName), data);
+                setCurrentPlayer(data);
             } catch(event) {
                 console.log(event);
             }
