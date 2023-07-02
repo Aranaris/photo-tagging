@@ -1,3 +1,5 @@
+import "../styles/Game.css";
+
 function Game() {
     return (
         <div className="Game">

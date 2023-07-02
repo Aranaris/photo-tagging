@@ -1,3 +1,5 @@
+import "../styles/Results.css";
+
 function Results() {
     return (
         <div className="Results">

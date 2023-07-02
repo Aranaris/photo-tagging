@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import firestore from "../firebase";
 import {collection, query, orderBy, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
 import { useState } from "react";
+import "../styles/Home.css";
 
 function Home() {
     const [currentPlayer, setCurrentPlayer] = useState({});
