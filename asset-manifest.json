@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/photo-tagging/static/css/main.d512a7a0.css",
-    "main.js": "/photo-tagging/static/js/main.b02bc2e5.js",
+    "main.js": "/photo-tagging/static/js/main.8d229de3.js",
     "index.html": "/photo-tagging/index.html",
     "main.d512a7a0.css.map": "/photo-tagging/static/css/main.d512a7a0.css.map",
-    "main.b02bc2e5.js.map": "/photo-tagging/static/js/main.b02bc2e5.js.map"
+    "main.8d229de3.js.map": "/photo-tagging/static/js/main.8d229de3.js.map"
   },
   "entrypoints": [
     "static/css/main.d512a7a0.css",
-    "static/js/main.b02bc2e5.js"
+    "static/js/main.8d229de3.js"
   ]
 }
