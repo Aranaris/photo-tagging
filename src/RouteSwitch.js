@@ -9,12 +9,12 @@ function RouteSwitch() {
     return (
         <BrowserRouter basename={process.env.PUBLIC_URL}>
             <nav>
-                <Button as={Link} to="/" text="Home"></Button>
+                <Button as={Link} to="" text="Home"></Button>
                 <Button as={Link} to="/game" text="Game"></Button>
                 <Button as={Link} to="/results" text="Results"></Button>
             </nav>
             <Routes>
-                <Route path="/" element={<Home />}/>
+                <Route path="" element={<Home />}/>
                 <Route path="/game" element={<Game />}/>
                 <Route path="/results" element={<Results />}/>
             </Routes>
