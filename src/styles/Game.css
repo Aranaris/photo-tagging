@@ -5,3 +5,7 @@
     justify-content: space-evenly;
     gap: 20px;
 }
+
+#game-photo {
+    max-width: 80vw;
+}

@@ -23,6 +23,7 @@ nav {
   padding: 10px;
   gap: 20px;
   border-bottom: 1px solid #aaa;
+  align-items: center;
 }
 
 .page-header {
@@ -38,6 +39,11 @@ a:link, a:visited, a:active {
 }
 a:hover {
 	color: #5ad;
+}
+
+#logo{
+  max-height: 25px;
+  border-radius: 50%;
 }
 
 img {
