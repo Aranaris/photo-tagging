@@ -1,0 +1,19 @@
+.GameInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+table {
+    border: 2px solid #aaa;
+    margin: 20px;
+}
+ 
+th {
+    border-bottom: 1px solid white;
+    padding: 15px;
+}
+ 
+td {
+    text-align: center;
+    padding: 5px 15px;
+}
