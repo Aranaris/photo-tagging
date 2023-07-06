@@ -6,24 +6,33 @@ import { useState } from "react";
 
 function Photo() {
     const [photoTags, setPhotoTags] = useState([]);
+    const [clientClick, setClientClick] = useState(null);
 
     const getTags = async () => {
         const photoSnapShot = await getDocs(collection(firestore, "photos", "photo-1", "tags")); //TODO replace "photo-1"
         
-        const newTags = photoSnapShot.docs.map((tag) => {
+        const photoTags = photoSnapShot.docs.map((tag) => {
             const tagData = tag.data();
             tagData["name"] = tag.id;
             console.log("Tag Data: ", tagData);
             return tagData;
         })
 
-        setPhotoTags([...photoTags, ...newTags]);
+        setPhotoTags(photoTags);
     }
 
     const photoClick = (event) => {
-        const elementData = event.target.getBoundingClientRect()
-        console.log('On Mousedown, ElementX:', event.clientX - elementData.x);
-        console.log('On Mousedown, ElementY:', event.clientY - elementData.y);
+        if (clientClick) {
+            setClientClick(null);
+        } else {
+            const elementData = event.target.getBoundingClientRect();
+            setClientClick({
+                x: event.clientX - elementData.x,
+                y: event.clientY - elementData.y
+            });    
+            console.log('On Mousedown, ElementX:', event.clientX - elementData.x);
+            console.log('On Mousedown, ElementY:', event.clientY - elementData.y);    
+        }
     }
 
     return (
@@ -44,7 +53,16 @@ function Photo() {
                     </div>
                 )
             })}
-            
+            {clientClick && <select size={photoTags.length} className="tag-dropdown" style={{
+                top: clientClick.y, 
+                left: clientClick.x
+            }}>
+                {photoTags.map((tagData, key) => {
+                    return (
+                        <option key={key}>{tagData.name}</option>
+                    )
+                })}
+            </select>}
             <button id="getTags" onClick={getTags}>Get tags</button>
         </div>
     )
