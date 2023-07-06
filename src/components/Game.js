@@ -1,6 +1,7 @@
 import "../styles/Game.css";
 import GameInfo from "./GameInfo";
-import displaycase from "../assets/BakeryDisplay1.jpg";
+import Photo from "./Photo";
+
 
 function Game() {
     return (
@@ -8,9 +9,7 @@ function Game() {
             <div className="page-header">
                 Game Header Placeholder
             </div>
-            <div id="game-container">
-                <img id="game-photo" src={displaycase} alt="current game"></img>
-            </div>
+            <Photo />
             <GameInfo />
         </div>
     )
