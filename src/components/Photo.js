@@ -11,14 +11,15 @@ function Photo() {
     const getTags = async () => {
         const photoSnapShot = await getDocs(collection(firestore, "photos", "photo-1", "tags")); //TODO replace "photo-1"
         
-        const photoTags = photoSnapShot.docs.map((tag) => {
+        const retrievedTags = photoSnapShot.docs.map((tag) => {
             const tagData = tag.data();
             tagData["name"] = tag.id;
+            tagData["show"] = false;
             console.log("Tag Data: ", tagData);
             return tagData;
         })
 
-        setPhotoTags(photoTags);
+        setPhotoTags(retrievedTags);
     }
 
     const photoClick = (event) => {
@@ -35,34 +36,55 @@ function Photo() {
         }
     }
 
+    const dropdownSelect = (event) => {
+        console.log(event.target.value);
+        
+        for (let i = 0; i < photoTags.length; i++) {
+            const tagData = photoTags[i];
+            if (event.target.value === tagData.name) {
+                tagData.show = true;
+                const newTagArray = [...photoTags];
+                newTagArray[i] = tagData;
+                setPhotoTags(newTagArray);
+                return;
+            }
+        }
+    }
+
     return (
         <div className="Photo">
             <img id="game-photo" src={displaycase} alt="current game" onMouseDown={photoClick}></img>
             {photoTags.map((tagData, key) => {
-                return (
-                    <div className="photo-tag" key={key} style={{
-                        top: tagData.start[1], 
-                        left: tagData.start[0],
-                        height: tagData.end[1] - tagData.start[1],
-                        width: tagData.end[0] - tagData.start[0],
-                    }}
-                    >
-                        <div className="tag-name">
-                            {tagData.name}
+                if (tagData.show) {
+                    return (
+                        <div className="photo-tag" key={key} style={{
+                            top: tagData.start[1], 
+                            left: tagData.start[0],
+                            height: tagData.end[1] - tagData.start[1],
+                            width: tagData.end[0] - tagData.start[0],
+                        }}
+                        >
+                            <div className="tag-name">
+                                {tagData.name}
+                            </div>
                         </div>
-                    </div>
-                )
+                    )
+                } else {
+                    return "";
+                }
             })}
-            {clientClick && <select size={photoTags.length} className="tag-dropdown" style={{
+            {clientClick && 
+            <select size={photoTags.length} className="tag-dropdown" style={{
                 top: clientClick.y, 
                 left: clientClick.x
-            }}>
+            }} onClick={dropdownSelect}>
                 {photoTags.map((tagData, key) => {
                     return (
                         <option key={key}>{tagData.name}</option>
                     )
                 })}
-            </select>}
+            </select>
+            }
             <button id="getTags" onClick={getTags}>Get tags</button>
         </div>
     )
