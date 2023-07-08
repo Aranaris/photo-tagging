@@ -31,24 +31,22 @@ function Photo() {
                 x: event.clientX - elementData.x,
                 y: event.clientY - elementData.y
             });    
-            console.log('On Mousedown, ElementX:', event.clientX - elementData.x);
-            console.log('On Mousedown, ElementY:', event.clientY - elementData.y);    
         }
     }
 
     const dropdownSelect = (event) => {
-        console.log(event.target.value);
         
         for (let i = 0; i < photoTags.length; i++) {
             const tagData = photoTags[i];
-            if (event.target.value === tagData.name) {
+            if (event.target.value === tagData.name && clientClick.x >= tagData.start[0] && clientClick.x <= tagData.end[0] && clientClick.y >= tagData.start[1] && clientClick.y <= tagData.end[1]) {
                 tagData.show = true;
                 const newTagArray = [...photoTags];
                 newTagArray[i] = tagData;
                 setPhotoTags(newTagArray);
                 return;
-            }
+            } 
         }
+        console.log("nope!");
     }
 
     return (
