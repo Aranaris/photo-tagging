@@ -1,7 +1,7 @@
 import '../styles/GameInfo.css';
 import { useState } from 'react';
 
-function GameInfo() {
+function GameInfo(props) {
     const [gameData, setGameData] = useState({scores:[]});
 
     const testData = {scores:
@@ -23,6 +23,7 @@ function GameInfo() {
 
     return (
         <div className="GameInfo">
+            <div className="current-score">Current Score: {props.currentScore}</div>
             <table>
                 <thead>
                     <tr>

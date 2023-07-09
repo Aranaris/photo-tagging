@@ -4,12 +4,12 @@ import firestore from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useState } from "react";
 
-function Photo() {
+function Photo(props) {
     const [photoTags, setPhotoTags] = useState([]);
     const [clientClick, setClientClick] = useState(null);
 
-    const getTags = async () => {
-        const photoSnapShot = await getDocs(collection(firestore, "photos", "photo-1", "tags")); //TODO replace "photo-1"
+    const getTags = async () => { //TODO: refactor this function to be moved to Game.js
+        const photoSnapShot = await getDocs(collection(firestore, "photos", props.photo, "tags"));
         
         const retrievedTags = photoSnapShot.docs.map((tag) => {
             const tagData = tag.data();
