@@ -6,10 +6,12 @@ import { useState } from "react";
 function Game() {
     const [gameState, setGameState] = useState("not started");
     const [currentScore, setCurrentScore] = useState(0);
-    const [currentPhoto, setCurrentPhoto] = useState("photo-1")
+    const [currentPhoto, setCurrentPhoto] = useState("")
 
     const startGame = () => {
         setGameState("active");
+        setCurrentScore(0);
+        setCurrentPhoto("photo-1");
     }
 
     return (
