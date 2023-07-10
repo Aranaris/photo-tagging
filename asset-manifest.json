@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/photo-tagging/static/css/main.8b3fe90e.css",
-    "main.js": "/photo-tagging/static/js/main.02e9a422.js",
+    "main.css": "/photo-tagging/static/css/main.ddbffd24.css",
+    "main.js": "/photo-tagging/static/js/main.3d4ad42d.js",
     "static/media/BakeryDisplay1.jpg": "/photo-tagging/static/media/BakeryDisplay1.fe780275b33c9388caf5.jpg",
     "index.html": "/photo-tagging/index.html",
-    "main.8b3fe90e.css.map": "/photo-tagging/static/css/main.8b3fe90e.css.map",
-    "main.02e9a422.js.map": "/photo-tagging/static/js/main.02e9a422.js.map"
+    "main.ddbffd24.css.map": "/photo-tagging/static/css/main.ddbffd24.css.map",
+    "main.3d4ad42d.js.map": "/photo-tagging/static/js/main.3d4ad42d.js.map"
   },
   "entrypoints": [
-    "static/css/main.8b3fe90e.css",
-    "static/js/main.02e9a422.js"
+    "static/css/main.ddbffd24.css",
+    "static/js/main.3d4ad42d.js"
   ]
 }
