@@ -43,6 +43,7 @@ function Photo(props) {
                 const newTagArray = [...photoTags];
                 newTagArray[i] = tagData;
                 setPhotoTags(newTagArray);
+                props.setCurrentScore(props.currentScore + props.totalSeconds)
                 return;
             } 
         }

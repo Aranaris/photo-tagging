@@ -11,6 +11,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "react-timer-hook": "^3.0.6",
     "web-vitals": "^2.1.0"
   },
   "homepage": "https://aranaris.github.io/photo-tagging",
@@ -23,7 +24,6 @@
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build"
   },
-
   "eslintConfig": {
     "extends": [
       "react-app",
