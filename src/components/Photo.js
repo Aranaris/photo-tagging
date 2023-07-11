@@ -1,26 +1,9 @@
 import "../styles/Photo.css";
 import displaycase from "../assets/BakeryDisplay1.jpg";
-import firestore from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
 import { useState } from "react";
 
 function Photo(props) {
-    const [photoTags, setPhotoTags] = useState([]);
     const [clientClick, setClientClick] = useState(null);
-
-    const getTags = async () => { //TODO: refactor this function to be moved to Game.js
-        const photoSnapShot = await getDocs(collection(firestore, "photos", props.photo, "tags"));
-        
-        const retrievedTags = photoSnapShot.docs.map((tag) => {
-            const tagData = tag.data();
-            tagData["name"] = tag.id;
-            tagData["show"] = false;
-            console.log("Tag Data: ", tagData);
-            return tagData;
-        })
-
-        setPhotoTags(retrievedTags);
-    }
 
     const photoClick = (event) => {
         if (clientClick) {
@@ -39,13 +22,13 @@ function Photo(props) {
             setClientClick(null);
         }
 
-        for (let i = 0; i < photoTags.length; i++) {
-            const tagData = photoTags[i];
+        for (let i = 0; i < props.photoTags.length; i++) {
+            const tagData = props.photoTags[i];
             if (event.target.value === tagData.name && clientClick.x >= tagData.start[0] && clientClick.x <= tagData.end[0] && clientClick.y >= tagData.start[1] && clientClick.y <= tagData.end[1]) {
                 tagData.show = true;
-                const newTagArray = [...photoTags];
+                const newTagArray = [...props.photoTags];
                 newTagArray[i] = tagData;
-                setPhotoTags(newTagArray);
+                props.setPhotoTags(newTagArray);
                 props.setCurrentScore(props.currentScore + props.totalSeconds)
                 return;
             } 
@@ -57,7 +40,7 @@ function Photo(props) {
     return (
         <div className="Photo">
             <img id="game-photo" src={displaycase} alt="current game" onMouseDown={photoClick}></img> 
-            {photoTags.map((tagData, key) => {
+            {props.photoTags.map((tagData, key) => {
                 if (tagData.show) {
                     return (
                         <div className="photo-tag" key={key} style={{
@@ -77,18 +60,17 @@ function Photo(props) {
                 }
             })}
             {clientClick && 
-            <select size={photoTags.length} className="tag-dropdown" style={{
+            <select size={props.photoTags.length} className="tag-dropdown" style={{
                 top: clientClick.y, 
                 left: clientClick.x
             }} onClick={dropdownSelect}>
-                {photoTags.map((tagData, key) => {
+                {props.photoTags.map((tagData, key) => {
                     return (
                         <option key={key}>{tagData.name}</option>
                     )
                 })}
             </select>
             }
-            <button id="getTags" onClick={getTags}>Get tags</button>
         </div>
     )
 }
