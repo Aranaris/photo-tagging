@@ -35,7 +35,10 @@ function Photo(props) {
     }
 
     const dropdownSelect = (event) => {
-        
+        if (clientClick) {
+            setClientClick(null);
+        }
+
         for (let i = 0; i < photoTags.length; i++) {
             const tagData = photoTags[i];
             if (event.target.value === tagData.name && clientClick.x >= tagData.start[0] && clientClick.x <= tagData.end[0] && clientClick.y >= tagData.start[1] && clientClick.y <= tagData.end[1]) {
@@ -47,12 +50,13 @@ function Photo(props) {
                 return;
             } 
         }
+
         console.log("nope!");
     }
-
+    //TODO: update photo source retrieval
     return (
         <div className="Photo">
-            <img id="game-photo" src={displaycase} alt="current game" onMouseDown={photoClick}></img>
+            <img id="game-photo" src={displaycase} alt="current game" onMouseDown={photoClick}></img> 
             {photoTags.map((tagData, key) => {
                 if (tagData.show) {
                     return (
