@@ -4,7 +4,7 @@ function Results() {
     return (
         <div className="Results">
             <div className="page-header">
-                Results Header Placeholder
+                Scores
             </div>
         </div>
     )

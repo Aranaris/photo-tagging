@@ -50,7 +50,7 @@ function Game() {
     return (
         <div className="Game">
             <div className="page-header">
-                Game Header Placeholder
+                Photo-Tagging
             </div>
             <Stopwatch seconds={seconds} minutes={minutes}/>
             <div className="button-container">

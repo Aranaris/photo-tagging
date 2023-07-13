@@ -48,7 +48,7 @@ function Home() {
 
     return (
         <div className="Home">
-            <div className="page-header">Home Placeholder</div>
+            <div className="page-header">Player Setup</div>
             <form onSubmit={handleSubmit}>
                 <label>Player Name: </label>
                 <input type="text" ref={inputName}></input>
