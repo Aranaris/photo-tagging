@@ -5,12 +5,18 @@ import { useState } from "react";
 import "../styles/Home.css";
 
 function Home() {
-    const [currentPlayer, setCurrentPlayer] = useState({});
+    const [currentPlayer, setCurrentPlayer] = useState();
     const inputName = useRef();
     const playerNameRef = collection(firestore, "players");
+    const [showPlayers, setShowPlayers] = useState(false);
+    const [playerList, setPlayerList] = useState([]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!inputName.current.value) {
+            return;
+        }
 
         let currentPlayerName = inputName.current.value;
 
@@ -37,12 +43,14 @@ function Home() {
     const handleClick = async () => {
         const playerQuery = query(playerNameRef, orderBy("name", "desc"));
         const querySnapshot = await getDocs(playerQuery);
-
-        querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        });
-        
+        if(!showPlayers) {
+            const updatedList = [];
+            querySnapshot.forEach((doc) => {
+                updatedList.push(doc.data());
+            });
+            setPlayerList(updatedList);
+        }
+        setShowPlayers(!showPlayers);
     }
 
 
@@ -54,8 +62,23 @@ function Home() {
                 <input type="text" ref={inputName}></input>
                 <input type="submit"></input>
             </form>
-            <div className="welcome-message">Welcome {currentPlayer.name}</div>
-            <button onClick={handleClick}>snapshot</button>
+            {currentPlayer && (
+                <div className="current-player">
+                    <div className="welcome-message">Welcome {currentPlayer.name}!</div>
+                    <div className="current-player-info">Best Score: {currentPlayer.best_score}</div>
+                </div>
+            )}
+            <button onClick={handleClick}>Show Player List (Firestore)</button>
+            {showPlayers && (
+                <li>
+                    {playerList.map((player, key) => {
+                        return (
+                            <ol key={key}>{player.name} || Best Score: {player.best_score} seconds</ol>
+                        )
+                    })}
+                </li>
+            )
+            }
         </div>
     )
 }

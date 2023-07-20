@@ -51,3 +51,7 @@ img {
 	box-shadow: 0 0 1px #777;
 	max-width: 100%;
 }
+
+li, ol {
+  list-style: none;
+}
