@@ -30,6 +30,10 @@ function Home() {
             console.log("Player not found, added to firestore");
             let data = {
                 name: currentPlayerName,
+                games: [{
+                    photo: "photo-1",
+                    score: 0,
+                }],
             };
             try{
                 setDoc(doc(playerNameRef, currentPlayerName), data);

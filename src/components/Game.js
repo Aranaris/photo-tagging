@@ -47,6 +47,12 @@ function Game() {
         getTags();
     }, [currentPhoto]);
 
+    useEffect( () => {
+        if (gameState === "completed") {
+            setCurrentScore(totalSeconds);
+        }
+    }, [gameState, totalSeconds])
+
     return (
         <div className="Game">
             <div className="page-header">
@@ -62,10 +68,9 @@ function Game() {
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
                 gameState={gameState} 
+                setGameState={setGameState}
                 photo={currentPhoto} 
                 totalSeconds={totalSeconds} 
-                currentScore={currentScore} 
-                setCurrentScore={setCurrentScore}
             />}
             <GameInfo currentScore={currentScore}/>
         </div>
