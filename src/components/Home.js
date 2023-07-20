@@ -44,6 +44,7 @@ function Home() {
         }
     };
 
+    //TODO: move the show all playerList display with scores to the score tab
     const handleClick = async () => {
         const playerQuery = query(playerNameRef, orderBy("name", "desc"));
         const querySnapshot = await getDocs(playerQuery);

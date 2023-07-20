@@ -50,9 +50,10 @@ function Game() {
     useEffect( () => {
         if (gameState === "completed") {
             setCurrentScore(totalSeconds);
+            pause();
             //TODO: update firestore with score for player and photo
         }
-    }, [gameState, totalSeconds])
+    }, [gameState, totalSeconds, pause])
 
     return (
         <div className="Game">
@@ -65,7 +66,7 @@ function Game() {
                 <button onClick={pause}>Pause</button>
                 <button onClick={reset}>Reset</button>
             </div>
-            {(gameState === "active") && <Photo 
+            {(gameState !== "not started") && <Photo 
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
                 gameState={gameState} 
