@@ -50,6 +50,7 @@ function Game() {
     useEffect( () => {
         if (gameState === "completed") {
             setCurrentScore(totalSeconds);
+            //TODO: update firestore with score for player and photo
         }
     }, [gameState, totalSeconds])
 

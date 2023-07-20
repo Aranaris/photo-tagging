@@ -4,6 +4,7 @@ import { useState } from "react";
 
 function Photo(props) {
     const [clientClick, setClientClick] = useState(null);
+    const [selectedTagCount, setSelectedTagCount] = useState(0);
 
     const photoClick = (event) => {
         if (clientClick) {
@@ -21,7 +22,7 @@ function Photo(props) {
         if (clientClick) {
             setClientClick(null);
         }
-
+        
         for (let i = 0; i < props.photoTags.length; i++) {
             const tagData = props.photoTags[i];
             if (event.target.value === tagData.name && clientClick.x >= tagData.start[0] && clientClick.x <= tagData.end[0] && clientClick.y >= tagData.start[1] && clientClick.y <= tagData.end[1]) {
@@ -29,13 +30,19 @@ function Photo(props) {
                 const newTagArray = [...props.photoTags];
                 newTagArray[i] = tagData;
                 props.setPhotoTags(newTagArray);
+                if (selectedTagCount+1 === props.photoTags.length) {
+                    props.setGameState("completed");
+                    setSelectedTagCount(0);
+                } else {
+                    setSelectedTagCount(selectedTagCount+1);
+                }
                 return;
             } 
         }
 
         console.log("nope!");
     }
-    //TODO: update photo source retrieval
+    //TODO: update photo source retrieval (currently hardcoded in the startGame function Game.js)
     return (
         <div className="Photo">
             <img id="game-photo" src={displaycase} alt="current game" onMouseDown={photoClick}></img> 
