@@ -9,7 +9,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 function Game() {
     const [gameState, setGameState] = useState("not started");
-    const [currentScore, setCurrentScore] = useState(0);
+    const [playerScore, setPlayerScore] = useState(0);
     const [currentPhoto, setCurrentPhoto] = useState(null)
     const [photoTags, setPhotoTags] = useState([]);
 
@@ -24,7 +24,7 @@ function Game() {
 
     const startGame = () => {
         setGameState("active");
-        setCurrentScore(0);
+        setPlayerScore(0);
         setCurrentPhoto("photo-1");
         start();
     }
@@ -49,7 +49,7 @@ function Game() {
 
     useEffect( () => {
         if (gameState === "completed") {
-            setCurrentScore(totalSeconds);
+            setPlayerScore(totalSeconds);
             pause();
             //TODO: update firestore with score for player and photo
         }
@@ -60,7 +60,8 @@ function Game() {
             <div className="page-header">
                 Photo-Tagging
             </div>
-            <Stopwatch seconds={seconds} minutes={minutes}/>
+            {(gameState === "active") && <Stopwatch seconds={seconds} minutes={minutes}/>}
+            {(gameState === "completed") && <GameInfo playerScore={playerScore}/>}
             <div className="button-container">
                 <button onClick={startGame}>Start Game</button>
                 <button onClick={pause}>Pause</button>
@@ -74,7 +75,7 @@ function Game() {
                 photo={currentPhoto} 
                 totalSeconds={totalSeconds} 
             />}
-            <GameInfo currentScore={currentScore}/>
+            
         </div>
     )
 }

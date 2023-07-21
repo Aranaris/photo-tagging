@@ -23,7 +23,7 @@ function GameInfo(props) {
 
     return (
         <div className="GameInfo">
-            <div className="current-score">Current Score: {props.currentScore}</div>
+            <div className="player-score">Your Score: {props.playerScore}</div>
             <table>
                 <thead>
                     <tr>
