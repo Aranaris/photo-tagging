@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Button from "./components/Button";
 import Home from "./components/Home";
-import Game from "./components/Game";
+import Tagging from "./components/Tagging";
 import Results from "./components/Results"
 import logo from "./assets/WLogo_Final.png";
 
@@ -12,12 +12,12 @@ function RouteSwitch() {
             <nav>
                 <img id="logo" src={logo} alt="logo" />
                 <Button as={Link} to="" text="Home"></Button>
-                <Button as={Link} to="/game" text="Game"></Button>
+                <Button as={Link} to="/tagging" text="Tagging"></Button>
                 <Button as={Link} to="/results" text="Results"></Button>
             </nav>
             <Routes>
                 <Route path="" element={<Home />}/>
-                <Route path="/game" element={<Game />}/>
+                <Route path="/tagging" element={<Tagging />}/>
                 <Route path="/results" element={<Results />}/>
             </Routes>
         </BrowserRouter>

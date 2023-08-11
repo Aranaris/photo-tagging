@@ -1,4 +1,4 @@
-import "../styles/Game.css";
+import "../styles/Tagging.css";
 import GameInfo from "./GameInfo";
 import Stopwatch from "./Stopwatch";
 import Photo from "./Photo";
@@ -7,7 +7,7 @@ import { useStopwatch } from "react-timer-hook";
 import firestore from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
-function Game() {
+function Tagging() {
     const [gameState, setGameState] = useState("not started");
     const [playerScore, setPlayerScore] = useState(0);
     const [currentPhoto, setCurrentPhoto] = useState(null)
@@ -56,7 +56,7 @@ function Game() {
     }, [gameState, totalSeconds, pause])
 
     return (
-        <div className="Game">
+        <div className="Tagging">
             <div className="page-header">
                 Photo-Tagging
             </div>
@@ -80,4 +80,4 @@ function Game() {
     )
 }
 
-export default Game;
+export default Tagging;
