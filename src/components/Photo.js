@@ -31,7 +31,7 @@ function Photo(props) {
                 newTagArray[i] = tagData;
                 props.setPhotoTags(newTagArray);
                 if (selectedTagCount+1 === props.photoTags.length) {
-                    props.setGameState("completed");
+                    props.setEditMode(false);
                     setSelectedTagCount(0);
                 } else {
                     setSelectedTagCount(selectedTagCount+1);
@@ -45,7 +45,7 @@ function Photo(props) {
     //TODO: update photo source retrieval (currently hardcoded in the startGame function Game.js)
     return (
         <div className="Photo">
-            <img id="game-photo" src={displaycase} alt="current game" onMouseDown={photoClick}></img> 
+            <img id="tag-photo" src={displaycase} alt="current to tag" onMouseDown={photoClick}></img> 
             {props.photoTags.map((tagData, key) => {
                 if (tagData.show) {
                     return (

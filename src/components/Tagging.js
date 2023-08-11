@@ -8,7 +8,7 @@ import firestore from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 function Tagging() {
-    const [gameState, setGameState] = useState("not started");
+    const [editMode, setEditMode] = useState(false);
     const [playerScore, setPlayerScore] = useState(0);
     const [currentPhoto, setCurrentPhoto] = useState(null)
     const [photoTags, setPhotoTags] = useState([]);
@@ -22,8 +22,8 @@ function Tagging() {
         totalSeconds,
     } = useStopwatch();
 
-    const startGame = () => {
-        setGameState("active");
+    const editPhoto = () => {
+        setEditMode(true);
         setPlayerScore(0);
         setCurrentPhoto("photo-1");
         start();
@@ -48,30 +48,30 @@ function Tagging() {
     }, [currentPhoto]);
 
     useEffect( () => {
-        if (gameState === "completed") {
+        if (!editMode) {
             setPlayerScore(totalSeconds);
             pause();
             //TODO: update firestore with score for player and photo
         }
-    }, [gameState, totalSeconds, pause])
+    }, [editMode, totalSeconds, pause])
 
     return (
         <div className="Tagging">
             <div className="page-header">
                 Photo-Tagging
             </div>
-            {(gameState === "active") && <Stopwatch seconds={seconds} minutes={minutes}/>}
-            {(gameState === "completed") && <GameInfo playerScore={playerScore}/>}
+            {(editMode) && <Stopwatch seconds={seconds} minutes={minutes}/>}
+            {(!editMode) && <GameInfo playerScore={playerScore}/>}
             <div className="button-container">
-                <button onClick={startGame}>Start Game</button>
+                <button onClick={editPhoto}>Edit Game</button>
                 <button onClick={pause}>Pause</button>
                 <button onClick={reset}>Reset</button>
             </div>
-            {(gameState !== "not started") && <Photo 
+            {<Photo 
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
-                gameState={gameState} 
-                setGameState={setGameState}
+                editMode={editMode} 
+                setEditMode={setEditMode}
                 photo={currentPhoto} 
                 totalSeconds={totalSeconds} 
             />}
