@@ -1,8 +1,4 @@
-import React from "react";
-
-function Stopwatch (props) {
-
-
+function Stopwatch(props) {
     return (
         <div className="Stopwatch">
             <div className="time-container">
