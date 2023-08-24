@@ -17,6 +17,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
+photo-tagging-70c04-c47de2960785.json
 *.log
 
 npm-debug.log*
