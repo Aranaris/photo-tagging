@@ -3,6 +3,6 @@ import Home from '../components/Home';
 
 test('renders Home page header', () => {
   render(<Home />);
-  const linkElement = screen.getByText(/home placeholder/i);
-  expect(linkElement).toBeInTheDocument();
+  const pageHeader = screen.getByText(/Player Setup/i);
+  expect(pageHeader).toBeInTheDocument();
 });
