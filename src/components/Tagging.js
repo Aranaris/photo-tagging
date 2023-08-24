@@ -63,7 +63,7 @@ function Tagging() {
             {(editMode) && <Stopwatch seconds={seconds} minutes={minutes}/>}
             {(!editMode) && <GameInfo playerScore={playerScore}/>}
             <div className="button-container">
-                <button onClick={editPhoto}>Edit Game</button>
+                <button onClick={editPhoto}>Add Annotations</button>
                 <button onClick={pause}>Pause</button>
                 <button onClick={reset}>Reset</button>
             </div>

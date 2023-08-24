@@ -1,5 +1,6 @@
 import pandas as pd
 import pathlib
+import json
 
 label_df = pd.read_csv("/Users/vinceye/fiftyone/open-images-v6/validation/metadata/classes.csv", header=None)
 images_df = pd.read_csv("/Users/vinceye/fiftyone/open-images-v6/validation/metadata/image_ids.csv")
@@ -8,6 +9,8 @@ classifications_df = pd.read_csv("/Users/vinceye/fiftyone/open-images-v6/validat
 # print(label_df)
 # print(images_df)
 # print(classifications_df)
+images_obj = {}
+images_obj['images'] = []
 
 for filename in pathlib.Path('/Users/vinceye/fiftyone/open-images-v6/validation/data').iterdir():
     image_id = filename.name.removesuffix('.jpg')
@@ -24,10 +27,17 @@ for filename in pathlib.Path('/Users/vinceye/fiftyone/open-images-v6/validation/
         name_df = label_df.loc[label_df[0] == label['LabelName']]
         obj['name'] = name_df.iloc[0][1]
         tag_list.append(obj)
-    print(tags_df)
-    print(tag_list)
-    break
+    # print(tags_df)
+    # print(tag_list)
+    tag_obj = {}
+    tag_obj['image'] = image_id
+    tag_obj['tags'] = tag_list
+    images_obj['images'].append(tag_obj)
 
-for image_id in images_df['ImageID']:
-    print(image_id)
-    break
+output = json.dumps(images_obj)
+
+with open("sample.json", "w") as outfile:
+    outfile.write(output)
+# for image_id in images_df['ImageID']:
+#     print(image_id)
+#     break
