@@ -1,10 +1,11 @@
 import "../styles/Photo.css";
-import displaycase from "../assets/BakeryDisplay1.jpg";
 import { useState } from "react";
 
 function Photo(props) {
     const [clientClick, setClientClick] = useState(null);
     const [selectedTagCount, setSelectedTagCount] = useState(0);
+
+    const img_url = `https://aranaris.github.io/image-repo/${props.imageid}.jpg`;
 
     const photoClick = (event) => {
         if (clientClick) {
@@ -45,7 +46,7 @@ function Photo(props) {
     //TODO: update photo source retrieval (currently hardcoded in the startGame function Game.js)
     return (
         <div className="Photo">
-            <img id="tag-photo" src={displaycase} alt="current to tag" onMouseDown={photoClick}></img> 
+            <img id="tag-photo" src={img_url} alt="current to tag" onMouseDown={photoClick}></img> 
             {props.photoTags.map((tagData, key) => {
                 if (tagData.show) {
                     return (
