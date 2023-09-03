@@ -57,7 +57,7 @@ function Tagging() {
                 const photoSnapShot = await getDoc(docRef);
                 const imageData = photoSnapShot.data();
                 const retrievedTags = imageData.tags.map((tag) => {
-                    console.log(tag)
+                    tag["show"] = true;
                     return tag;
                 })
                 setPhotoTags(retrievedTags);
@@ -85,7 +85,7 @@ function Tagging() {
                 <button onClick={pause}>Pause</button>
                 <button onClick={reset}>Reset</button>
             </div>
-            {<Photo 
+            {(currentImage) && <Photo 
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
                 editMode={editMode} 

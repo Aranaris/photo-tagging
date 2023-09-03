@@ -4,7 +4,6 @@ import { useState } from "react";
 function Photo(props) {
     const [clientClick, setClientClick] = useState(null);
     const [selectedTagCount, setSelectedTagCount] = useState(0);
-
     const img_url = `https://aranaris.github.io/image-repo/${props.imageid}.jpg`;
 
     const photoClick = (event) => {
@@ -15,7 +14,14 @@ function Photo(props) {
             setClientClick({
                 x: event.clientX - elementData.x,
                 y: event.clientY - elementData.y
-            });    
+            });
+        }
+    }
+
+    const loadTags = (event) => {
+        if (props.imageid) {
+            const photoDim = event.target.getBoundingClientRect();
+            console.log(photoDim);
         }
     }
 
@@ -46,26 +52,32 @@ function Photo(props) {
     //TODO: update photo source retrieval (currently hardcoded in the startGame function Game.js)
     return (
         <div className="Photo">
-            <img id="tag-photo" src={img_url} alt="current to tag" onMouseDown={photoClick}></img> 
-            {props.photoTags.map((tagData, key) => {
+            <img id="tag-photo" src={img_url} alt="current to tag" onMouseDown={photoClick} onLoad={loadTags}></img> 
+                {props.photoTags.map((tagData, key) => {
                 if (tagData.show) {
                     return (
                         <div className="photo-tag" key={key} style={{
-                            top: tagData.start[1], 
-                            left: tagData.start[0],
-                            height: tagData.end[1] - tagData.start[1],
-                            width: tagData.end[0] - tagData.start[0],
+                            top: `${tagData.start[1] * 100}%`, 
+                            // top: `${photoSize.top}`,
+                            // bottom: ``,
+                            left: `${tagData.start[0] * 100}%`,
+                            // left: `${photoSize.left}`,
+                            // right: ``,
+                            height: `${(tagData.end[1] - tagData.start[1]) * 100}%`,
+                            width: `${(tagData.end[0] - tagData.start[0]) * 100}%`,
+
                         }}
                         >
                             <div className="tag-name">
                                 {tagData.name}
                             </div>
                         </div>
-                    )
-                } else {
-                    return "";
-                }
-            })}
+                        )
+                    } else {
+                        return "";
+                    }
+                })}
+            
             {clientClick && 
             <select size={props.photoTags.length} className="tag-dropdown" style={{
                 top: clientClick.y, 
