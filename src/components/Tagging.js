@@ -1,9 +1,7 @@
 import "../styles/Tagging.css";
 import GameInfo from "./GameInfo";
-import Stopwatch from "./Stopwatch";
 import Photo from "./Photo";
 import { useEffect, useState } from "react";
-import { useStopwatch } from "react-timer-hook";
 import firestore from "../firebase";
 // import { collection, getDocs } from "firebase/firestore";
 import {doc, getDoc} from "firebase/firestore";
@@ -11,45 +9,15 @@ import {doc, getDoc} from "firebase/firestore";
 function Tagging() {
     const [editMode, setEditMode] = useState(false);
     const [playerScore, setPlayerScore] = useState(0);
-    // const [currentPhoto, setCurrentPhoto] = useState(null);
     const [currentImage, setCurrentImage] = useState(null);
     const [imgSize, setImgSize] = useState({});
     const [photoTags, setPhotoTags] = useState([]);
 
-    const {
-        seconds,
-        minutes,
-        start,
-        pause,
-        reset,
-        totalSeconds,
-    } = useStopwatch();
-
     const editPhoto = () => {
         setEditMode(true);
         setPlayerScore(0);
-        // setCurrentPhoto("photo-1");
         setCurrentImage("0035a5f752a459e1");
-        start();
     }
-
-    // useEffect( () => {
-    //     async function getTags() {
-    //         if (currentPhoto) {
-    //             const photoSnapShot = await getDocs(collection(firestore, "photos", currentPhoto, "tags"));
-                
-    //             const retrievedTags = photoSnapShot.docs.map((tag) => {
-    //                 const tagData = tag.data();
-    //                 tagData["name"] = tag.id;
-    //                 tagData["show"] = false;
-    //                 console.log("Tag Data: ", tagData);
-    //                 return tagData;
-    //             })
-    //             setPhotoTags(retrievedTags);
-    //         }
-    //     }
-    //     getTags();
-    // }, [currentPhoto]);
 
     useEffect( () => {
         async function getTags() {
@@ -67,32 +35,25 @@ function Tagging() {
         getTags();
     }, [currentImage]);
 
-    useEffect( () => {
-        if (!editMode) {
-            setPlayerScore(totalSeconds);
-            pause();
-            //TODO: update firestore with score for player and photo
-        }
-    }, [editMode, totalSeconds, pause])
-
     return (
         <div className="Tagging">
             <div className="page-header">
                 Photo-Tagging
             </div>
-            {(editMode) && <Stopwatch seconds={seconds} minutes={minutes}/>}
-            <div className="button-container">
-                <button onClick={editPhoto}>Add Annotations</button>
-                <button onClick={pause}>Pause</button>
-                <button onClick={reset}>Reset</button>
+            <div className="section-header">
+                <div className="header-text"> &lt; &lt; Current Image: {currentImage} &gt; &gt; </div>
+                <div className="button-container">
+                    <button onClick={""}>Previous Image</button>
+                    <button onClick={editPhoto}>Display Image</button>
+                    <button onClick={""}>Next Image</button>
+                </div>
             </div>
+
             {(currentImage) && <Photo 
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
                 editMode={editMode} 
                 setEditMode={setEditMode}
-                // photo={currentPhoto} 
-                totalSeconds={totalSeconds}
                 imageid = {currentImage}
                 imgSize = {imgSize}
                 setImgSize = {setImgSize}

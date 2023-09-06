@@ -62,8 +62,6 @@ function Photo(props) {
                             height: `${props.imgSize.height*(tagData.end[1]-tagData.start[1])}px`,
                             left: `${props.imgSize.width*tagData.start[0]}px`,
                             width: `${props.imgSize.width*(tagData.end[0]-tagData.start[0])}px`,
-                            // left: `${Math.round((props.imgSize.right - props.imgSize.left)*tagData.start[0])}px`,
-                            // right: `${Math.round((props.imgSize.right - props.imgSize.left)*tagData.end[0])}px`,
                         }}
                         >
                             <div className="tag-name">
