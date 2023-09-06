@@ -21,7 +21,8 @@ function Photo(props) {
     const loadTags = (event) => {
         if (props.imageid) {
             const photoDim = event.target.getBoundingClientRect();
-            console.log(photoDim);
+            photoDim.imageid = props.imageid;
+            props.setImgSize(photoDim);
         }
     }
 
@@ -53,19 +54,16 @@ function Photo(props) {
     return (
         <div className="Photo">
             <img id="tag-photo" src={img_url} alt="current to tag" onMouseDown={photoClick} onLoad={loadTags}></img> 
-                {props.photoTags.map((tagData, key) => {
+                {(props.imgSize['imageid'] == props.imageid) && props.photoTags.map((tagData, key) => {
                 if (tagData.show) {
                     return (
                         <div className="photo-tag" key={key} style={{
-                            top: `${tagData.start[1] * 100}%`, 
-                            // top: `${photoSize.top}`,
-                            // bottom: ``,
-                            left: `${tagData.start[0] * 100}%`,
-                            // left: `${photoSize.left}`,
-                            // right: ``,
-                            height: `${(tagData.end[1] - tagData.start[1]) * 100}%`,
-                            width: `${(tagData.end[0] - tagData.start[0]) * 100}%`,
-
+                            top: `${props.imgSize.height*tagData.start[1]}px`,
+                            height: `${props.imgSize.height*(tagData.end[1]-tagData.start[1])}px`,
+                            left: `${props.imgSize.width*tagData.start[0]}px`,
+                            width: `${props.imgSize.width*(tagData.end[0]-tagData.start[0])}px`,
+                            // left: `${Math.round((props.imgSize.right - props.imgSize.left)*tagData.start[0])}px`,
+                            // right: `${Math.round((props.imgSize.right - props.imgSize.left)*tagData.end[0])}px`,
                         }}
                         >
                             <div className="tag-name">

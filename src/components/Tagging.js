@@ -11,8 +11,9 @@ import {doc, getDoc} from "firebase/firestore";
 function Tagging() {
     const [editMode, setEditMode] = useState(false);
     const [playerScore, setPlayerScore] = useState(0);
-    const [currentPhoto, setCurrentPhoto] = useState(null);
+    // const [currentPhoto, setCurrentPhoto] = useState(null);
     const [currentImage, setCurrentImage] = useState(null);
+    const [imgSize, setImgSize] = useState({});
     const [photoTags, setPhotoTags] = useState([]);
 
     const {
@@ -27,7 +28,7 @@ function Tagging() {
     const editPhoto = () => {
         setEditMode(true);
         setPlayerScore(0);
-        setCurrentPhoto("photo-1");
+        // setCurrentPhoto("photo-1");
         setCurrentImage("0035a5f752a459e1");
         start();
     }
@@ -90,9 +91,11 @@ function Tagging() {
                 setPhotoTags={setPhotoTags}
                 editMode={editMode} 
                 setEditMode={setEditMode}
-                photo={currentPhoto} 
+                // photo={currentPhoto} 
                 totalSeconds={totalSeconds}
                 imageid = {currentImage}
+                imgSize = {imgSize}
+                setImgSize = {setImgSize}
             />}
             {(!editMode) && <GameInfo playerScore={playerScore}/>}
         </div>
