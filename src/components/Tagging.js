@@ -62,10 +62,16 @@ function Tagging() {
 
     useEffect(() => {
         getTags();
-        console.log("test")
     }, [currentImage]);
 
-    const headerText = `<< Current Image (${currentImage + 1} of ${imageLibrary.length}) : ${imageLibrary[currentImage]}>>`
+    let headerText = "";
+    
+    if (imageLibrary[currentImage]) {
+        headerText = `<< Current Image (${currentImage + 1} of ${imageLibrary.length}) : ${imageLibrary[currentImage]}>>`;
+    } else {
+        headerText = `No Image Loaded: (Click "Display Image" to start.)`;
+    }
+    
 
     return (
         <div className="Tagging">
