@@ -1,14 +1,12 @@
 import pandas as pd
 import pathlib
 import json
+from datetime import datetime
 
 label_df = pd.read_csv("/Users/vinceye/fiftyone/open-images-v6/validation/metadata/classes.csv", header=None)
 images_df = pd.read_csv("/Users/vinceye/fiftyone/open-images-v6/validation/metadata/image_ids.csv")
 classifications_df = pd.read_csv("/Users/vinceye/fiftyone/open-images-v6/validation/labels/detections.csv")
 
-# print(label_df)
-# print(images_df)
-# print(classifications_df)
 images_obj = {}
 images_obj['images'] = []
 
@@ -26,17 +24,19 @@ for filename in pathlib.Path('/Users/vinceye/fiftyone/open-images-v6/validation/
         # print(obj)
         name_df = label_df.loc[label_df[0] == label['LabelName']]
         obj['name'] = name_df.iloc[0][1]
+        now = datetime.now()
         tag_list.append(obj)
     # print(tags_df)
     # print(tag_list)
     tag_obj = {}
     tag_obj['image'] = image_id
     tag_obj['tags'] = tag_list
+    tag_obj['created'] = now.strftime("%Y-%m-%d %H:%M:%S")
     images_obj['images'].append(tag_obj)
 
 output = json.dumps(images_obj)
 
-with open("sample.json", "w") as outfile:
+with open("./scripts/sample.json", "w") as outfile:
     outfile.write(output)
 # for image_id in images_df['ImageID']:
 #     print(image_id)

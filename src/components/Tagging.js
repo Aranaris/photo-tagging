@@ -1,48 +1,71 @@
 import "../styles/Tagging.css";
-import GameInfo from "./GameInfo";
 import Photo from "./Photo";
 import { useEffect, useState } from "react";
 import firestore from "../firebase";
 // import { collection, getDocs } from "firebase/firestore";
-import {QuerySnapshot, collection ,doc, getDoc, getDocs} from "firebase/firestore";
+import {collection ,doc, getDoc, getDocs, orderBy, query} from "firebase/firestore";
 
 function Tagging() {
     const [editMode, setEditMode] = useState(false);
-    const [playerScore, setPlayerScore] = useState(0);
     const [currentImage, setCurrentImage] = useState(null);
     const [imgSize, setImgSize] = useState({});
     const [photoTags, setPhotoTags] = useState([]);
-    const imageLibraryRef = collection(firestore, "images");
+    const [imageLibrary, setImageLibrary] = useState([]);
 
-
-    const editPhoto = () => {
+    const displayImage = () => {
         setEditMode(true);
-        setPlayerScore(0);
-        setCurrentImage("0035a5f752a459e1");
+        if (!currentImage && currentImage !== 0) {
+            setCurrentImage(imageLibrary.length - 1);
+        }
+    }
+
+    const nextImage = () => {
+        if (currentImage < imageLibrary.length - 1) {
+            setCurrentImage(currentImage + 1);
+        }
+    }
+
+    const previousImage = () => {
+        if (currentImage >> 0) {
+            setCurrentImage(currentImage - 1);
+        }
     }
 
     const getImages = async () => {
-        const imageLibrarySnapshot = await getDocs(imageLibraryRef);
+        const imageLibraryRef = collection(firestore, "images");
+        const q = query(imageLibraryRef, orderBy("created"));
+        const imageLibrarySnapshot = await getDocs(q);
+
+        const imagesArray = [];
         imageLibrarySnapshot.forEach((image) => {
-            console.log(image.id, " => ", image.data);
+            imagesArray.push(image.id)
         });
+        setImageLibrary(imagesArray);
     }
 
-    useEffect( () => {
-        async function getTags() {
-            if (currentImage) {
-                const docRef = doc(firestore, "images", currentImage);
-                const photoSnapShot = await getDoc(docRef);
-                const imageData = photoSnapShot.data();
-                const retrievedTags = imageData.tags.map((tag) => {
-                    tag["show"] = true;
-                    return tag;
-                })
-                setPhotoTags(retrievedTags);
-            }
+    async function getTags() {
+        if (currentImage || currentImage == 0) {
+            const docRef = doc(firestore, "images", imageLibrary[currentImage]);
+            const photoSnapShot = await getDoc(docRef);
+            const imageData = photoSnapShot.data();
+            const retrievedTags = imageData.tags.map((tag) => {
+                tag["show"] = true;
+                return tag;
+            })
+            setPhotoTags(retrievedTags);
         }
+    }
+    
+    useEffect(() => {
+        getImages();
+    }, [] );
+
+    useEffect(() => {
         getTags();
+        console.log("test")
     }, [currentImage]);
+
+    const headerText = `<< Current Image (${currentImage + 1} of ${imageLibrary.length}) : ${imageLibrary[currentImage]}>>`
 
     return (
         <div className="Tagging">
@@ -50,25 +73,23 @@ function Tagging() {
                 Image Tagging
             </div>
             <div className="section-header">
-                <div className="header-text"> &lt; &lt; Current Image: {currentImage} &gt; &gt; </div>
+                <div className="header-text"> {headerText} </div>
                 <div className="button-container">
-                    <button>Previous Image</button>
-                    <button onClick={getImages}>Log all images</button>
-                    <button onClick={editPhoto}>Display Image</button>
-                    <button>Next Image</button>
+                    <button onClick={previousImage}>Previous Image</button>
+                    <button onClick={displayImage}>Display Image</button>
+                    <button onClick={nextImage}>Next Image</button>
                 </div>
             </div>
 
-            {(currentImage) && <Photo 
+            {(currentImage || currentImage == 0) && <Photo 
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
                 editMode={editMode} 
                 setEditMode={setEditMode}
-                imageid = {currentImage}
+                imageid = {imageLibrary[currentImage]}
                 imgSize = {imgSize}
                 setImgSize = {setImgSize}
             />}
-            {(!editMode) && <GameInfo playerScore={playerScore}/>}
         </div>
     )
 }
