@@ -4,7 +4,7 @@ import Photo from "./Photo";
 import { useEffect, useState } from "react";
 import firestore from "../firebase";
 // import { collection, getDocs } from "firebase/firestore";
-import {doc, getDoc} from "firebase/firestore";
+import {QuerySnapshot, collection ,doc, getDoc, getDocs} from "firebase/firestore";
 
 function Tagging() {
     const [editMode, setEditMode] = useState(false);
@@ -12,11 +12,20 @@ function Tagging() {
     const [currentImage, setCurrentImage] = useState(null);
     const [imgSize, setImgSize] = useState({});
     const [photoTags, setPhotoTags] = useState([]);
+    const imageLibraryRef = collection(firestore, "images");
+
 
     const editPhoto = () => {
         setEditMode(true);
         setPlayerScore(0);
         setCurrentImage("0035a5f752a459e1");
+    }
+
+    const getImages = async () => {
+        const imageLibrarySnapshot = await getDocs(imageLibraryRef);
+        imageLibrarySnapshot.forEach((image) => {
+            console.log(image.id, " => ", image.data);
+        });
     }
 
     useEffect( () => {
@@ -38,14 +47,15 @@ function Tagging() {
     return (
         <div className="Tagging">
             <div className="page-header">
-                Photo-Tagging
+                Image Tagging
             </div>
             <div className="section-header">
                 <div className="header-text"> &lt; &lt; Current Image: {currentImage} &gt; &gt; </div>
                 <div className="button-container">
-                    <button onClick={""}>Previous Image</button>
+                    <button>Previous Image</button>
+                    <button onClick={getImages}>Log all images</button>
                     <button onClick={editPhoto}>Display Image</button>
-                    <button onClick={""}>Next Image</button>
+                    <button>Next Image</button>
                 </div>
             </div>
 

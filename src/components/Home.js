@@ -5,11 +5,11 @@ import { useState } from "react";
 import "../styles/Home.css";
 
 function Home() {
-    const [currentPlayer, setCurrentPlayer] = useState();
+    const [currentUser, setCurrentUser] = useState();
     const inputName = useRef();
-    const playerNameRef = collection(firestore, "players");
-    const [showPlayers, setShowPlayers] = useState(false);
-    const [playerList, setPlayerList] = useState([]);
+    const userNameRef = collection(firestore, "players");
+    const [showUsers, setShowUsers] = useState(false);
+    const [userList, setUserList] = useState([]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -18,26 +18,26 @@ function Home() {
             return;
         }
 
-        let currentPlayerName = inputName.current.value;
+        let currentUserName = inputName.current.value;
 
-        const currentPlayerRef = doc(firestore, "players", currentPlayerName);
-        const currentPlayerSnap = await getDoc(currentPlayerRef);
+        const currentUserRef = doc(firestore, "players", currentUserName);
+        const currentUserSnap = await getDoc(currentUserRef);
 
-        if (currentPlayerSnap.exists()) {
-            console.log("Player Data: ", currentPlayerSnap.data());
-            setCurrentPlayer(currentPlayerSnap.data());
+        if (currentUserSnap.exists()) {
+            console.log("User Data: ", currentUserSnap.data());
+            setCurrentUser(currentUserSnap.data());
         } else {
-            console.log("Player not found, added to firestore");
+            console.log("User not found, added to firestore");
             let data = {
-                name: currentPlayerName,
+                name: currentUserName,
                 games: [{
                     photo: "photo-1",
                     score: 0,
                 }],
             };
             try{
-                setDoc(doc(playerNameRef, currentPlayerName), data);
-                setCurrentPlayer(data);
+                setDoc(doc(userNameRef, currentUserName), data);
+                setCurrentUser(data);
             } catch(event) {
                 console.log(event);
             }
@@ -46,39 +46,39 @@ function Home() {
 
     //TODO: move the show all playerList display with scores to the score tab
     const handleClick = async () => {
-        const playerQuery = query(playerNameRef, orderBy("name", "desc"));
-        const querySnapshot = await getDocs(playerQuery);
-        if(!showPlayers) {
+        const userQuery = query(userNameRef, orderBy("name", "desc"));
+        const querySnapshot = await getDocs(userQuery);
+        if(!showUsers) {
             const updatedList = [];
             querySnapshot.forEach((doc) => {
                 updatedList.push(doc.data());
             });
-            setPlayerList(updatedList);
+            setUserList(updatedList);
         }
-        setShowPlayers(!showPlayers);
+        setShowUsers(!showUsers);
     }
 
 
     return (
         <div className="Home">
-            <div className="page-header">Player Setup</div>
+            <div className="page-header">User Setup</div>
             <form onSubmit={handleSubmit}>
-                <label>Player Name: </label>
+                <label>User Name: </label>
                 <input type="text" ref={inputName}></input>
                 <input type="submit"></input>
             </form>
-            {currentPlayer && (
-                <div className="current-player">
-                    <div className="welcome-message">Welcome {currentPlayer.name}!</div>
-                    <div className="current-player-info">Best Score: {currentPlayer.best_score}</div>
+            {currentUser && (
+                <div className="current-user">
+                    <div className="welcome-message">Welcome {currentUser.name}!</div>
+                    <div className="current-user-info">Best Score: {currentUser.best_score}</div>
                 </div>
             )}
-            <button onClick={handleClick}>Show Player List (Firestore)</button>
-            {showPlayers && (
+            <button onClick={handleClick}>Show User List (Firestore)</button>
+            {showUsers && (
                 <li>
-                    {playerList.map((player, key) => {
+                    {userList.map((user, key) => {
                         return (
-                            <ol key={key}>{player.name} || Best Score: {player.best_score} seconds</ol>
+                            <ol key={key}>{user.name} || Best Score: {user.best_score} seconds</ol>
                         )
                     })}
                 </li>
