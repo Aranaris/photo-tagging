@@ -19,15 +19,27 @@ function Tagging() {
         }
     }
 
-    const nextImage = () => {
-        if (currentImage < imageLibrary.length - 1) {
-            setCurrentImage(currentImage + 1);
+    const firstImage = () => {
+        if (currentImage > 0) {
+            setCurrentImage(0);
         }
     }
 
     const previousImage = () => {
         if (currentImage > 0) {
             setCurrentImage(currentImage - 1);
+        }
+    }
+
+    const nextImage = () => {
+        if (currentImage < imageLibrary.length - 1) {
+            setCurrentImage(currentImage + 1);
+        }
+    }
+
+    const lastImage = () => {
+        if (currentImage < imageLibrary.length - 1) {
+            setCurrentImage(imageLibrary.length-1);
         }
     }
 
@@ -67,7 +79,7 @@ function Tagging() {
     let headerText = "";
     
     if (imageLibrary[currentImage]) {
-        headerText = `<< Current Image (${currentImage + 1} of ${imageLibrary.length}) : ${imageLibrary[currentImage]}>>`;
+        headerText = `Current Image: ${imageLibrary[currentImage]} (${currentImage + 1} of ${imageLibrary.length})`;
     } else {
         headerText = `No Image Loaded: (Click "Display Image" to start.)`;
     }
@@ -81,9 +93,11 @@ function Tagging() {
             <div className="section-header">
                 <div className="header-text"> {headerText} </div>
                 <div className="button-container">
-                    <button onClick={previousImage}>Previous Image</button>
+                    <button onClick={firstImage}>&lt; &lt;</button>
+                    <button onClick={previousImage}>&lt; Previous Image</button>
                     <button onClick={displayImage}>Display Image</button>
-                    <button onClick={nextImage}>Next Image</button>
+                    <button onClick={nextImage}>Next Image &gt;</button>
+                    <button onClick={lastImage}>&gt; &gt;</button>
                 </div>
             </div>
 
