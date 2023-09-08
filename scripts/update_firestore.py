@@ -11,6 +11,7 @@ db = firestore.client()
 
 with open("./scripts/sample.json", "r") as infile:
     data = json.load(infile)
-    for image in data['images']:
-        image_id = image['image']
-        db.collection('images').document(image_id).set(image)
+
+for image in data['images']:
+    image_id = image['image']
+    db.collection('images').document(image_id).set(image)

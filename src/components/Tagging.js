@@ -26,7 +26,7 @@ function Tagging() {
     }
 
     const previousImage = () => {
-        if (currentImage >> 0) {
+        if (currentImage > 0) {
             setCurrentImage(currentImage - 1);
         }
     }
