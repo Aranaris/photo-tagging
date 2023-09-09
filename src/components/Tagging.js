@@ -13,7 +13,7 @@ function Tagging() {
 
     const displayImage = () => {
         setEditMode(true);
-        if (!currentImage && currentImage !== 0) {
+        if (currentImage === null) {
             setCurrentImage(imageLibrary.length - 1);
         }
     }
@@ -55,7 +55,7 @@ function Tagging() {
     }
 
     async function getTags() {
-        if (currentImage || currentImage == 0) {
+        if (imageLibrary[currentImage]) {
             const docRef = doc(firestore, "images", imageLibrary[currentImage]);
             const photoSnapShot = await getDoc(docRef);
             const imageData = photoSnapShot.data();
@@ -66,17 +66,17 @@ function Tagging() {
             setPhotoTags(retrievedTags);
         }
     }
-    
+
     useEffect(() => {
         getImages();
     }, [] );
 
     useEffect(() => {
         getTags();
-    }, [currentImage]);
+    }, [imageLibrary, currentImage]);
 
     let headerText = "";
-    
+
     if (imageLibrary[currentImage]) {
         headerText = `Current Image: ${imageLibrary[currentImage]} (${currentImage + 1} of ${imageLibrary.length})`;
     } else {
@@ -99,10 +99,10 @@ function Tagging() {
                 </div>
             </div>
 
-            {(currentImage !== null) && <Photo 
+            {(imageLibrary[currentImage]) && <Photo
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
-                editMode={editMode} 
+                editMode={editMode}
                 setEditMode={setEditMode}
                 imageid = {imageLibrary[currentImage]}
                 imgSize = {imgSize}
