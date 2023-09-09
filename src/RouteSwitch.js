@@ -17,7 +17,7 @@ function RouteSwitch() {
             </nav>
             <Routes>
                 <Route path="" element={<Home />}/>
-                <Route path="/tagging" element={<Tagging />}/>
+                <Route path="/tagging/:imageIndex?" element={<Tagging />}/>
                 <Route path="/results" element={<Results />}/>
             </Routes>
         </BrowserRouter>

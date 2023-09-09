@@ -3,42 +3,52 @@ import Photo from "./Photo";
 import { useEffect, useState } from "react";
 import firestore from "../firebase";
 import {collection, doc, getDoc, getDocs, orderBy, query} from "firebase/firestore";
+import {useNavigate, useParams} from "react-router-dom";
 
 function Tagging() {
+    const params = useParams();
+    const defaultImage = params.imageIndex ? parseInt(params.imageIndex)-1 : null;
+    const navigate = useNavigate();
+
     const [editMode, setEditMode] = useState(false);
-    const [currentImage, setCurrentImage] = useState(null);
+    const [currentImage, setCurrentImage] = useState(defaultImage);
     const [imgSize, setImgSize] = useState({});
     const [photoTags, setPhotoTags] = useState([]);
     const [imageLibrary, setImageLibrary] = useState([]);
 
+    const setImageIndex = (index) => {
+        setCurrentImage(index);
+        navigate(`/tagging/${index + 1}`, {replace: true});
+    };
+
     const displayImage = () => {
         setEditMode(true);
         if (currentImage === null) {
-            setCurrentImage(imageLibrary.length - 1);
+            setImageIndex(imageLibrary.length - 1);
         }
     }
 
     const firstImage = () => {
         if (currentImage > 0) {
-            setCurrentImage(0);
+            setImageIndex(0);
         }
     }
 
     const previousImage = () => {
         if (currentImage > 0) {
-            setCurrentImage(currentImage - 1);
+            setImageIndex(currentImage - 1);
         }
     }
 
     const nextImage = () => {
         if (currentImage < imageLibrary.length - 1) {
-            setCurrentImage(currentImage + 1);
+            setImageIndex(currentImage + 1);
         }
     }
 
     const lastImage = () => {
         if (currentImage < imageLibrary.length - 1) {
-            setCurrentImage(imageLibrary.length-1);
+            setImageIndex(imageLibrary.length-1);
         }
     }
 
