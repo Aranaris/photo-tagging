@@ -17,6 +17,8 @@ settings:
   react:
     version: detect
 rules:
+  comma-spacing:
+    - error
   no-unused-vars:
     - error
     - args: none

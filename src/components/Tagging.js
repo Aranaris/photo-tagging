@@ -2,8 +2,7 @@ import "../styles/Tagging.css";
 import Photo from "./Photo";
 import { useEffect, useState } from "react";
 import firestore from "../firebase";
-// import { collection, getDocs } from "firebase/firestore";
-import {collection ,doc, getDoc, getDocs, orderBy, query} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, orderBy, query} from "firebase/firestore";
 
 function Tagging() {
     const [editMode, setEditMode] = useState(false);
@@ -83,7 +82,6 @@ function Tagging() {
     } else {
         headerText = `No Image Loaded: (Click "Display Image" to start.)`;
     }
-    
 
     return (
         <div className="Tagging">
@@ -94,14 +92,14 @@ function Tagging() {
                 <div className="header-text"> {headerText} </div>
                 <div className="button-container">
                     <button onClick={firstImage}>&lt; &lt;</button>
-                    <button onClick={previousImage}>&lt; Previous Image</button>
+                    <button onClick={previousImage} disabled={currentImage === 0}>&lt; Previous Image</button>
                     <button onClick={displayImage}>Display Image</button>
-                    <button onClick={nextImage}>Next Image &gt;</button>
+                    <button onClick={nextImage} disabled={currentImage === imageLibrary.length-1}>Next Image &gt;</button>
                     <button onClick={lastImage}>&gt; &gt;</button>
                 </div>
             </div>
 
-            {(currentImage || currentImage == 0) && <Photo 
+            {(currentImage !== null) && <Photo 
                 photoTags={photoTags}
                 setPhotoTags={setPhotoTags}
                 editMode={editMode} 
