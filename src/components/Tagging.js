@@ -83,6 +83,26 @@ function Tagging() {
         }
     }
 
+    const toggleTags = (event) => {
+        if(event.target.checked) {
+            const updatedTags = [...photoTags];
+            updatedTags.map((tag) => {
+                if(tag.name == event.target.name) {
+                    tag["show"] = true;
+                }
+            })
+            setPhotoTags(updatedTags);
+        } else {
+            const updatedTags = [...photoTags];
+            updatedTags.map((tag) => {
+                if(tag.name == event.target.name) {
+                    tag["show"] = false;
+                }
+            })
+            setPhotoTags(updatedTags);
+        }
+    }
+
     useEffect(() => {
         getImages();
     }, [] );
@@ -125,16 +145,26 @@ function Tagging() {
                     imgSize = {imgSize}
                     setImgSize = {setImgSize}
                 />}
-                <div className="tag-filter">
-                    Show Tags
-                    <li>
-                        {tagNames.map((name, key) => {
+                <fieldset className="tag-filter">
+                    <div className="filter-header">Show Tags</div>
+                    {tagNames.map((name, key) => {
                             return (
-                                <ul key={key} className="tag-select">{name}</ul>
+                                <div key={key}>
+                                    <input 
+                                    type="checkbox" 
+                                    id={`filter-${name}`} 
+                                    name={name} 
+                                    className="tag-select"
+                                    onChange={toggleTags}
+                                    //TODO, should convert defaultChecked to a checked controlled component
+                                    defaultChecked="checked"
+                                    >
+                                    </input>
+                                    <label htmlFor={`filter-${name}`}>{name}</label>
+                                </div>
                             )
-                        })}
-                    </li>
-                </div>
+                    })}
+                </fieldset>
             </div>
         </div>
     )
