@@ -14,6 +14,7 @@ function Tagging() {
     const [currentImage, setCurrentImage] = useState(defaultImage);
     const [imgSize, setImgSize] = useState({});
     const [photoTags, setPhotoTags] = useState([]);
+    const [tagNames, setTagNames] = useState([]);
     const [imageLibrary, setImageLibrary] = useState([]);
 
     const setImageIndex = (index) => {
@@ -69,11 +70,16 @@ function Tagging() {
             const docRef = doc(firestore, "images", imageLibrary[currentImage]);
             const photoSnapShot = await getDoc(docRef);
             const imageData = photoSnapShot.data();
+            const distinctTags = [];
             const retrievedTags = imageData.tags.map((tag) => {
+                if (!distinctTags.includes(tag.name)) {
+                    distinctTags.push(tag.name);
+                }
                 tag["show"] = true;
                 return tag;
             })
             setPhotoTags(retrievedTags);
+            setTagNames(distinctTags);
         }
     }
 
@@ -112,6 +118,7 @@ function Tagging() {
                 {(imageLibrary[currentImage]) && <Photo
                     photoTags={photoTags}
                     setPhotoTags={setPhotoTags}
+                    tagNames={tagNames}
                     editMode={editMode}
                     setEditMode={setEditMode}
                     imageid = {imageLibrary[currentImage]}
@@ -121,15 +128,14 @@ function Tagging() {
                 <div className="tag-filter">
                     Show Tags
                     <li>
-                        {photoTags.map((tagData, key) => {
+                        {tagNames.map((name, key) => {
                             return (
-                                <ul key={key} className="tag-select">{tagData.name}</ul>
+                                <ul key={key} className="tag-select">{name}</ul>
                             )
                         })}
                     </li>
                 </div>
             </div>
-            
         </div>
     )
 }

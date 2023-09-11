@@ -50,7 +50,7 @@ function Photo(props) {
 
         console.log("nope!");
     }
-    //TODO: update photo source retrieval (currently hardcoded in the startGame function Game.js)
+
     return (
         <div className="Photo">
             <img id="tag-photo" src={img_url} alt="current to tag" onMouseDown={photoClick} onLoad={loadTags}></img> 
@@ -75,13 +75,13 @@ function Photo(props) {
                 })}
             
             {clientClick && 
-            <select size={props.photoTags.length} className="tag-dropdown" style={{
+            <select size={props.tagNames.length} className="tag-dropdown" style={{
                 top: clientClick.y, 
-                left: clientClick.x
+                left: clientClick.x,
             }} onClick={dropdownSelect}>
-                {props.photoTags.map((tagData, key) => {
+                {props.tagNames.map((name, key) => {
                     return (
-                        <option key={key}>{tagData.name}</option>
+                        <option key={key}>{name}</option>
                     )
                 })}
             </select>
