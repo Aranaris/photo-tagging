@@ -52,8 +52,9 @@ img {
 	max-width: 100%;
 }
 
-li, ol {
-  list-style: none;
+li, ol, ul {
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .section-header {
@@ -62,4 +63,9 @@ li, ol {
   gap: 20px;
   align-items: center;
   font-weight: bold;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
 }

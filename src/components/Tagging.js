@@ -108,16 +108,28 @@ function Tagging() {
                     <button onClick={lastImage}>&gt; &gt;</button>
                 </div>
             </div>
-
-            {(imageLibrary[currentImage]) && <Photo
-                photoTags={photoTags}
-                setPhotoTags={setPhotoTags}
-                editMode={editMode}
-                setEditMode={setEditMode}
-                imageid = {imageLibrary[currentImage]}
-                imgSize = {imgSize}
-                setImgSize = {setImgSize}
-            />}
+            <div className="content-container">
+                {(imageLibrary[currentImage]) && <Photo
+                    photoTags={photoTags}
+                    setPhotoTags={setPhotoTags}
+                    editMode={editMode}
+                    setEditMode={setEditMode}
+                    imageid = {imageLibrary[currentImage]}
+                    imgSize = {imgSize}
+                    setImgSize = {setImgSize}
+                />}
+                <div className="tag-filter">
+                    Show Tags
+                    <li>
+                        {photoTags.map((tagData, key) => {
+                            return (
+                                <ul key={key} className="tag-select">{tagData.name}</ul>
+                            )
+                        })}
+                    </li>
+                </div>
+            </div>
+            
         </div>
     )
 }

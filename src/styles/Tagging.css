@@ -5,3 +5,16 @@
     justify-content: space-evenly;
     gap: 20px;
 }
+
+.tag-filter {
+    border: solid #aaa 2px;
+    padding: 10px;
+    margin: 0 5px;
+    font-weight: bold;
+    font-size: large;
+}
+
+.tag-select {
+    font-weight: normal;
+    font-size: medium;
+}
